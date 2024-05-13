@@ -93,4 +93,18 @@ public class FakeStoreProductService implements ProductService{
         FakeStoreDto fakeStoreDtoRes = response.getBody();
         return fakeStoreDtoRes.toProductResponseDto();
     }
+
+    @Override
+    public ProductResponseDto deleteProduct(int id) {
+        RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreDto.class);
+        ResponseExtractor<ResponseEntity<FakeStoreDto>> responseExtractor = restTemplate.responseEntityExtractor(
+                FakeStoreDto.class
+        );
+        ResponseEntity<FakeStoreDto> response = restTemplate.execute(
+                "https://fakestoreapi.com/products/{id}", HttpMethod.DELETE, requestCallback,
+                responseExtractor, id
+        );
+        FakeStoreDto fakeStoreDto = response.getBody();
+        return fakeStoreDto.toProductResponseDto();
+    }
 }

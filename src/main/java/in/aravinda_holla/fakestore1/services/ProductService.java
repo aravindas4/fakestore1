@@ -24,5 +24,6 @@ public interface ProductService {
             String category,
             double price
     );
+    public ProductResponseDto deleteProduct(int id);
 }
 

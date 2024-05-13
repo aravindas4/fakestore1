@@ -49,4 +49,9 @@ public class ProductController {
                 productRequestDto.getPrice()
         );
     }
+
+    @DeleteMapping("/products/{id}")
+    public ProductResponseDto deleteProduct(@PathVariable("id") int id) {
+        return productService.deleteProduct(id);
+    }
 }
