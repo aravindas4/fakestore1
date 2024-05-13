@@ -16,5 +16,13 @@ public interface ProductService {
             double price
     );
     public List<ProductResponseDto> getProducts();
+    public ProductResponseDto updateProduct(
+            int id,
+            String title,
+            String description,
+            String imageUrl,
+            String category,
+            double price
+    );
 }
 

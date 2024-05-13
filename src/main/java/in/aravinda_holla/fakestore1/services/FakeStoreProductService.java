@@ -3,8 +3,11 @@ package in.aravinda_holla.fakestore1.services;
 import in.aravinda_holla.fakestore1.dtos.FakeStoreDto;
 import in.aravinda_holla.fakestore1.dtos.ProductResponseDto;
 import in.aravinda_holla.fakestore1.models.Product;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -62,5 +65,32 @@ public class FakeStoreProductService implements ProductService{
             productDtos.add(obj.toProductResponseDto());
         }
         return productDtos;
+    }
+
+    @Override
+    public ProductResponseDto updateProduct(
+            int id,
+            String title,
+            String description,
+            String imageUrl,
+            String category,
+            double price
+    ) {
+        FakeStoreDto fakeStoreDto = new FakeStoreDto();
+        fakeStoreDto.setTitle(title);
+        fakeStoreDto.setDescription(description);
+        fakeStoreDto.setImage(imageUrl);
+        fakeStoreDto.setCategory(category);
+        fakeStoreDto.setPrice(price);
+        RequestCallback requestCallBack = restTemplate.httpEntityCallback(fakeStoreDto, FakeStoreDto.class);
+        ResponseExtractor<ResponseEntity<FakeStoreDto>> responseExtractor = restTemplate.responseEntityExtractor(
+                FakeStoreDto.class
+        );
+        ResponseEntity<FakeStoreDto> response = restTemplate.execute(
+                "https://fakestoreapi.com/products/{id}",
+                HttpMethod.PUT, requestCallBack, responseExtractor, id
+        );
+        FakeStoreDto fakeStoreDtoRes = response.getBody();
+        return fakeStoreDtoRes.toProductResponseDto();
     }
 }

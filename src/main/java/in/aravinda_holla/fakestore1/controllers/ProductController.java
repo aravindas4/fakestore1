@@ -37,4 +37,16 @@ public class ProductController {
     public List<ProductResponseDto> getAllProducts() {
         return productService.getProducts();
     }
+
+    @PutMapping("/products/{id}")
+    public ProductResponseDto updateProduct(@PathVariable("id") int id, @RequestBody ProductRequestDto productRequestDto) {
+        return productService.updateProduct(
+                id,
+                productRequestDto.getTitle(),
+                productRequestDto.getDescription(),
+                productRequestDto.getImage(),
+                productRequestDto.getCategory(),
+                productRequestDto.getPrice()
+        );
+    }
 }
