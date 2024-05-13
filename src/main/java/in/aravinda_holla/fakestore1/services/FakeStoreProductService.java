@@ -3,8 +3,12 @@ package in.aravinda_holla.fakestore1.services;
 import in.aravinda_holla.fakestore1.dtos.FakeStoreDto;
 import in.aravinda_holla.fakestore1.dtos.ProductResponseDto;
 import in.aravinda_holla.fakestore1.models.Product;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FakeStoreProductService implements ProductService{
@@ -45,5 +49,18 @@ public class FakeStoreProductService implements ProductService{
         );
 
         return response.toProductResponseDto();
+    }
+
+    @Override
+    public List<ProductResponseDto> getProducts() {
+        ResponseEntity<FakeStoreDto[]> response = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products",
+                FakeStoreDto[].class
+        );
+        List<ProductResponseDto> productDtos = new ArrayList<>();
+        for(FakeStoreDto obj: response.getBody()) {
+            productDtos.add(obj.toProductResponseDto());
+        }
+        return productDtos;
     }
 }

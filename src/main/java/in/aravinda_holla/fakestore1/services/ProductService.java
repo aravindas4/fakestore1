@@ -4,6 +4,8 @@ import in.aravinda_holla.fakestore1.dtos.FakeStoreDto;
 import in.aravinda_holla.fakestore1.dtos.ProductResponseDto;
 import in.aravinda_holla.fakestore1.models.Product;
 
+import java.util.List;
+
 public interface ProductService {
     public ProductResponseDto getSingleProduct(int productId);
     public ProductResponseDto addProduct(
@@ -13,5 +15,6 @@ public interface ProductService {
             String category,
             double price
     );
+    public List<ProductResponseDto> getProducts();
 }
 

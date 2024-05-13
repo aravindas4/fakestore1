@@ -6,6 +6,8 @@ import in.aravinda_holla.fakestore1.models.Product;
 import in.aravinda_holla.fakestore1.services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
@@ -29,5 +31,10 @@ public class ProductController {
                 productRequestDto.getCategory(),
                 productRequestDto.getPrice()
         );
+    }
+
+    @GetMapping("/products")
+    public List<ProductResponseDto> getAllProducts() {
+        return productService.getProducts();
     }
 }
