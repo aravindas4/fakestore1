@@ -12,32 +12,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
-public class FakeStoreCategoryService implements CategoryService{
-    private RestTemplate restTemplate;
-
-    public FakeStoreCategoryService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-
-    @Override
-    public List<String> getCategories() {
-        ResponseEntity<String[]> response = restTemplate.getForEntity(
-                "https://fakestoreapi.com/products/categories",
-                String[].class
-        );
-        return Arrays.asList(response.getBody());
-    }
-
-    public List<Product> getCategoryProducts(@PathVariable("title") String title) {
-        ResponseEntity<FakeStoreDto[]> response = restTemplate.getForEntity(
-                "https://fakestoreapi.com/products/category/{title}",
-                FakeStoreDto[].class, title
-        );
-        List<Product> productDtos = new ArrayList<>();
-        for(FakeStoreDto obj: response.getBody()) {
-            productDtos.add(obj.toProduct());
-        }
-        return productDtos;
-    }
-}
+//@Service("fakeStoreService")
+//public class FakeStoreCategoryService implements CategoryService{
+//    private RestTemplate restTemplate;
+//
+//    public FakeStoreCategoryService(RestTemplate restTemplate) {
+//        this.restTemplate = restTemplate;
+//    }
+//
+//
+//}

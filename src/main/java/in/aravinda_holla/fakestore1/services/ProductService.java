@@ -25,6 +25,16 @@ public interface ProductService {
             String category,
             double price
     ) throws ProductNotFoundException;
+    public Product replaceProduct(
+            int id,
+            String title,
+            String description,
+            String imageUrl,
+            String category,
+            double price
+    ) throws ProductNotFoundException;
     public Product deleteProduct(int id) throws ProductNotFoundException;
+    public List<String> getCategories();
+    public List<Product> getCategoryProducts(String title);
 }
 

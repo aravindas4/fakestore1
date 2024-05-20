@@ -8,14 +8,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-@Service
+@Service("fakeStoreService")
 public class FakeStoreProductService implements ProductService{
 
     private RestTemplate restTemplate;
@@ -118,6 +120,11 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
+    public Product replaceProduct(int id, String title, String description, String imageUrl, String category, double price) throws ProductNotFoundException {
+        return null;
+    }
+
+    @Override
     public Product deleteProduct(int id) throws ProductNotFoundException {
 //        RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreDto.class);
 //        ResponseExtractor<ResponseEntity<FakeStoreDto>> responseExtractor = restTemplate.responseEntityExtractor(
@@ -140,4 +147,28 @@ public class FakeStoreProductService implements ProductService{
         }
         return fakeStoreDto.toProduct();
     }
+
+    @Override
+    public List<String> getCategories() {
+        ResponseEntity<String[]> response = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products/categories",
+                String[].class
+        );
+        return Arrays.asList(response.getBody());
+    }
+
+    @Override
+    public List<Product> getCategoryProducts(@PathVariable("title") String title) {
+        ResponseEntity<FakeStoreDto[]> response = restTemplate.getForEntity(
+                "https://fakestoreapi.com/products/category/{title}",
+                FakeStoreDto[].class, title
+        );
+        List<Product> productDtos = new ArrayList<>();
+        for(FakeStoreDto obj: response.getBody()) {
+            productDtos.add(obj.toProduct());
+        }
+        return productDtos;
+    }
+
+
 }
