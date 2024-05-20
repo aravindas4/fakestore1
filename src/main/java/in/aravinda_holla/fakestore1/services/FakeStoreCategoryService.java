@@ -2,6 +2,7 @@ package in.aravinda_holla.fakestore1.services;
 
 import in.aravinda_holla.fakestore1.dtos.FakeStoreDto;
 import in.aravinda_holla.fakestore1.dtos.ProductResponseDto;
+import in.aravinda_holla.fakestore1.models.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,14 +29,14 @@ public class FakeStoreCategoryService implements CategoryService{
         return Arrays.asList(response.getBody());
     }
 
-    public List<ProductResponseDto> getCategoryProducts(@PathVariable("title") String title) {
+    public List<Product> getCategoryProducts(@PathVariable("title") String title) {
         ResponseEntity<FakeStoreDto[]> response = restTemplate.getForEntity(
                 "https://fakestoreapi.com/products/category/{title}",
                 FakeStoreDto[].class, title
         );
-        List<ProductResponseDto> productDtos = new ArrayList<>();
+        List<Product> productDtos = new ArrayList<>();
         for(FakeStoreDto obj: response.getBody()) {
-            productDtos.add(obj.toProductResponseDto());
+            productDtos.add(obj.toProduct());
         }
         return productDtos;
     }

@@ -1,6 +1,7 @@
 package in.aravinda_holla.fakestore1.controllers;
 
 import in.aravinda_holla.fakestore1.dtos.ProductResponseDto;
+import in.aravinda_holla.fakestore1.models.Product;
 import in.aravinda_holla.fakestore1.services.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories/{title}")
-    public List<ProductResponseDto> getCategoryProducts(@PathVariable("title") String title) {
+    public List<Product> getCategoryProducts(@PathVariable("title") String title) {
         return categoryService.getCategoryProducts(title);
     }
 }
