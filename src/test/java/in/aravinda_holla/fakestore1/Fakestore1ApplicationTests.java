@@ -1,15 +1,18 @@
 package in.aravinda_holla.fakestore1;
 
+import in.aravinda_holla.fakestore1.models.Category;
 import in.aravinda_holla.fakestore1.models.Product;
 import in.aravinda_holla.fakestore1.repositories.CategoryRepository;
 import in.aravinda_holla.fakestore1.repositories.ProductRepository;
 import in.aravinda_holla.fakestore1.repositories.projections.ProductProjection;
 import in.aravinda_holla.fakestore1.repositories.projections.ProductWithIdAndTitle;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class Fakestore1ApplicationTests {
@@ -75,6 +78,32 @@ class Fakestore1ApplicationTests {
     void testNativeQuery() {
         Product product = productRepo.getProductById(9);
         System.out.println(product.getTitle());
+    }
+
+    @Test
+    @Transactional
+    void testFetchType() {
+        Optional<Category> category = categoryRepo.findById(5);
+        if (category.isPresent()) {
+            System.out.println(category.get().getTitle());
+            List<Product> products = category.get().getProducts();
+            for(Product product: products) {
+                System.out.println(product.getTitle());
+            }
+        }
+    }
+
+    @Test
+    @Transactional
+    void testFetchModes() {
+        List<Category> categories = categoryRepo.findByTitleEndingWith("electronics");
+        for(Category cat: categories) {
+            System.out.println(cat.getTitle());
+            List<Product> products = cat.getProducts();
+            for(Product p: products) {
+                System.out.println(p.getTitle());
+            }
+        }
     }
 
 }

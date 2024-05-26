@@ -9,4 +9,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category save(Category category);
     Category findByTitle(String name);
     List<Category> findAll();
+    List<Category> findByTitleEndingWith(String ending);
 }
