@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 public class Category extends BaseModel {
     private String title;
+    private String description;
     @OneToMany(mappedBy = "category")
     @Fetch(value = FetchMode.SUBSELECT)
     List<Product> products;
